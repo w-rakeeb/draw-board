@@ -1,12 +1,14 @@
 # Draw Board
 
-A simple drawing canvas by **Wrakeeb**. Open the site and start drawing. No accounts, sign-in, AI, or live collaboration.
+A drawing canvas by **Wrakeeb**. Draw on your own or invite people into a live room. No accounts, sign-in, or AI.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fw-rakeeb%2Fdraw-board&project-name=draw-board&repository-name=draw-board)
 
 ## Deploy
 
-Import `w-rakeeb/draw-board` in Vercel. Keep Root Directory at the repository root. `vercel.json` supplies the Vite framework, `yarn install --frozen-lockfile`, `yarn build`, and output directory `excalidraw-app/build`. No environment variables or backend services are required.
+Import `w-rakeeb/draw-board` in Vercel. Keep Root Directory at the repository root. `vercel.json` supplies the Vite framework, `yarn install --frozen-lockfile`, `yarn build`, and output directory `excalidraw-app/build`. The drawing editor needs no backend. For live rooms, deploy the included server and set `VITE_APP_COLLABORATION_SERVER`: follow [the collaboration setup](BACKEND_SETUP.md).
+
+[![Deploy room server to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/w-rakeeb/draw-board)
 
 ## Drawing features
 
@@ -15,10 +17,11 @@ Import `w-rakeeb/draw-board` in Vercel. Keep Root Directory at the repository ro
 - Local reusable shape libraries with file import/export, Mermaid diagrams, dark/light/system themes, and translations.
 - Browser autosave, `.drawboard` drawing files, `.drawboardlib` library files, PNG/SVG exports, embedded editable drawing data, and clipboard.
 - Offline use after the app and required assets are cached.
+- Live collaboration by invite link, shared images, cursors and nicknames, view following, simultaneous edits, and reconnect recovery. Live rooms require the configured room server and internet access.
 
-Drawings and image files stay in browser storage until you export them. Browser storage can be cleared, so save a file for important work. Existing drawing/library files and embedded PNG/SVG scenes from earlier versions remain importable.
+Private drawings and image files stay in browser storage until you export them. Room drawings are encrypted and shared with participants, with a temporary relay snapshot. Browser storage and temporary rooms can be cleared, so save a file for important work. Existing drawing/library files and embedded PNG/SVG scenes from earlier versions remain importable.
 
-The app uses bundled fonts on its own host. Opening an embed or an external link intentionally accesses that destination. There are no original-provider account, AI, collaboration, storage, or telemetry requests in the drawing flow.
+The app uses bundled fonts on its own host. Opening an embed or an external link intentionally accesses that destination. Live collaboration connects only to the server you configure. There are no original-provider account, AI, storage, or telemetry requests in the drawing flow.
 
 ## Develop
 

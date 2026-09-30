@@ -1,32 +1,38 @@
 # Draw Board verification
 
-Verified September 30, 2026 (Asia/Dhaka), after conversion to a simple local drawing app.
+Verified September 30, 2026 (Asia/Dhaka), after restoring live collaboration.
 
 ## Build and checks
 
-- TypeScript check passed with no errors.
-- Lint passed for the changed React, startup, file, and export code.
-- The separate GitHub release checkout passed a frozen-lockfile install and production build, including PWA generation.
-- 92 focused tests passed across restoration, exports, libraries, freehand drawing, branded file formats, and legacy file/image compatibility.
-- Two export snapshots were intentionally updated for Draw Board file types and SVG metadata.
+- TypeScript and lint passed for the changed frontend code.
+- Production frontend build and PWA generation passed with the local collaboration server configured.
+- The separate GitHub release checkout passed a frozen-lockfile install and production build with no private local frontend configuration.
+- 92 focused frontend tests passed: reconciliation, restoration, exports, branded file compatibility, invite parsing, and concurrent background convergence.
+- Seven server tests passed: health endpoint, WebSocket origin restriction, invalid room rejection, non-member rejection, encrypted relay and late-join cache, envelope validation, and room isolation.
+- The server passed a clean locked install and npm audit with zero reported vulnerabilities. Client and server use Socket.IO 4.8.4.
 
-## Browser verification
+## Collaboration in real browsers
 
-- Actual rectangle drawing, editable text, freehand paths, undo/redo, zoom, autosave/reload, themes, and a 390 x 844 mobile layout passed.
-- Welcome screen, main menu, help, library, more-tools menu, Mermaid dialog, command palette, file export, image export, and mobile UI contain no original branding, account prompts, collaboration controls, or AI generation entries.
-- Exported .drawboard files have Draw Board type metadata and preserve editable shapes/text. PNG and SVG downloads passed signature/content checks. SVG metadata identifies Draw Board.
-- Mermaid code produced editable Start / Draw / Save shapes without AI.
-- An image dropped onto the canvas was saved to browser IndexedDB and restored after reload.
-- The final release build reloaded with network access disabled and saved newly typed text offline.
-- No requests to Excalidraw, Firebase, or Sentry were observed during the audited drawing/export/Mermaid flow. Fonts load from the site's own files.
-- No uncaught JavaScript exceptions were observed.
+- Isolated browser contexts started and joined rooms through the real UI. Joining preserved the visitor's private draft and did not add it to the room.
+- Shared text, freehand paths, simultaneous shape creation, images, deletion tombstones, and background changes converged.
+- Nicknames, cursor positions, and avatar-based view following worked. Clicking the avatar again stopped following.
+- A third browser loaded the cached encrypted scene. The relay received ciphertext without the drawing text or encryption key.
+- A wrong room key showed an error and did not overwrite the valid encrypted snapshot.
+- Stopping the server, editing while disconnected, and restarting it caused all three browsers to reconnect and converge with the disconnected changes preserved.
+- Room edits left both browsers' stored private drafts unchanged. Leaving could restore the private draft or keep the shared drawing as an autosaved local copy.
 
-## Scope
+## Production browser checks
 
-- Visible product identity is Draw Board / Made by Wrakeeb.
-- Accounts, AI, live collaboration, cloud sharing, paid promotions, cloud setup files, provider links, old promotional icons/screenshots, and cloud dependencies were removed from the app/release.
-- Local libraries, drawing/editing, frames, images, exports, Mermaid, themes, translations, shortcuts, and cached offline use remain.
-- Internal editor module names, previous-format import compatibility, and mandatory original copyright/license/font notices remain in source. The underlying engine is open-source derived code, not a claim of sole authorship.
-- No Vercel deployment was manually performed. The GitHub repository is ready for import, or for automatic deployment if already connected.
+- The production bundle had no debug API. Text created in one browser appeared in a real .drawboard file exported by another browser.
+- A received image was saved to IndexedDB when keeping the room drawing, then restored after reload.
+- The sharing dialog closed with Escape. Live collaboration remained reachable from the mobile menu at 390 x 844.
+- No original-provider, Firebase, or Sentry requests and no uncaught browser exceptions were observed in the verified flows.
+- Wrakeeb / Draw Board branding remains. AI, account prompts, paid promotions, and original-provider links remain removed.
 
-Local logs, screenshots, downloads, and browser test scripts are under the ignored work folder.
+## Hosting status
+
+The relay is included and locally verified. No public room server has been provisioned. BACKEND_SETUP.md and render.yaml provide a separate Free Render deployment path; set VITE_APP_COLLABORATION_SERVER in Vercel and redeploy after the server is live. Without that setting, the app explains that live collaboration is being set up and keeps local drawing usable.
+
+Rooms cache encrypted drawings in memory and expire after 24 hours without participants. Server restarts and idle shutdowns erase the cache. Save a drawing file for durable storage. This relay is intended for one instance.
+
+Local test logs, screenshots, downloads, and browser scripts are under the ignored work folder. Mandatory original copyright/license/font notices and legacy format compatibility remain in source.

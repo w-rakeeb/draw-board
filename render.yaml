@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: draw-board-collaboration
+    runtime: docker
+    plan: free
+    dockerfilePath: ./services/collaboration/Dockerfile
+    dockerContext: ./services/collaboration
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3002
+      - key: CORS_ORIGIN
+        sync: false

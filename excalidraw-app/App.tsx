@@ -20,7 +20,7 @@ import {
 import { OverwriteConfirmDialog } from "@excalidraw/excalidraw/components/OverwriteConfirm/OverwriteConfirm";
 import { useHandleLibrary } from "@excalidraw/excalidraw/data/library";
 import polyfill from "@excalidraw/excalidraw/polyfill";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import type {
   AppState,
@@ -52,6 +52,11 @@ import { useHandleAppTheme } from "./useHandleAppTheme";
 import { getPreferredLanguage } from "./app-language/language-detector";
 import { useAppLangCode } from "./app-language/language-state";
 import "./index.scss";
+import { useCollaboration } from "./collab/useCollaboration";
+import {
+  CollaborationButton,
+  CollaborationDialog,
+} from "./collab/CollaborationDialog";
 
 polyfill();
 window.EXCALIDRAW_THROTTLE_RENDER = true;
@@ -64,6 +69,9 @@ interface InstallPromptEvent extends Event {
 const DrawBoardEditor = () => {
   const excalidrawAPI = useExcalidrawAPI();
   const rootRef = useRef<HTMLDivElement>(null);
+  const [localReady, setLocalReady] = useState(false);
+  const collaboration = useCollaboration(excalidrawAPI, rootRef, localReady);
+  const onCollaborativeChange = collaboration.onChange;
   const installPromptRef = useRef<InstallPromptEvent | null>(null);
   const { editorTheme, appTheme, setAppTheme } = useHandleAppTheme();
   const [langCode, setLangCode] = useAppLangCode();
@@ -120,6 +128,7 @@ const DrawBoardEditor = () => {
           ...scene,
           files: Object.fromEntries(loadedFiles.map((file) => [file.id, file])),
         });
+        ownerWindow.setTimeout(() => !cancelled && setLocalReady(true), 0);
         void LocalData.fileStorage.clearObsoleteFiles({
           currentFileIds: fileIds,
         });
@@ -129,10 +138,11 @@ const DrawBoardEditor = () => {
       if (!cancelled) {
         console.error(error);
         initialDataRef.current!.resolve(importFromLocalStorage());
+        ownerWindow.setTimeout(() => !cancelled && setLocalReady(true), 0);
       }
     });
     const syncData = debounce(() => {
-      if (ownerDocument.hidden) {
+      if (LocalData.isSavePaused()) {
         return;
       }
       if (isBrowserStorageStateNewer(STORAGE_KEYS.VERSION_DATA_STATE)) {
@@ -205,6 +215,9 @@ const DrawBoardEditor = () => {
       appState: AppState,
       files: BinaryFiles,
     ) => {
+      if (onCollaborativeChange(elements, appState, files)) {
+        return;
+      }
       LocalData.save(elements, appState, files, () => {
         if (!excalidrawAPI) {
           return;
@@ -227,7 +240,7 @@ const DrawBoardEditor = () => {
         }
       });
     },
-    [excalidrawAPI],
+    [excalidrawAPI, onCollaborativeChange],
   );
 
   const onExport: Required<ExcalidrawProps>["onExport"] = useCallback(
@@ -254,7 +267,16 @@ const DrawBoardEditor = () => {
         onExport={onExport}
         initialData={initialDataRef.current}
         aiEnabled={false}
-        isCollaborating={false}
+        isCollaborating={collaboration.isCollaborating}
+        onPointerUpdate={collaboration.onPointerUpdate}
+        onUserFollow={collaboration.onUserFollow}
+        userToFollow={collaboration.userToFollow}
+        onScrollChange={collaboration.onScrollChange}
+        renderTopRightUI={(isMobile) =>
+          isMobile ? null : (
+            <CollaborationButton collaboration={collaboration} />
+          )
+        }
         UIOptions={{
           canvasActions: {
             toggleTheme: true,
@@ -275,12 +297,23 @@ const DrawBoardEditor = () => {
         theme={editorTheme}
         onThemeChange={setAppTheme}
       >
-        <AppMainMenu theme={appTheme} />
-        <AppWelcomeScreen />
+        <AppMainMenu
+          theme={appTheme}
+          onCollaboration={collaboration.open}
+          isCollaborating={collaboration.isCollaborating}
+        />
+        <AppWelcomeScreen onCollaboration={collaboration.open} />
+        <CollaborationDialog collaboration={collaboration} />
         <OverwriteConfirmDialog>
           <OverwriteConfirmDialog.Actions.SaveToDisk />
         </OverwriteConfirmDialog>
         <AppFooter />
+        {collaboration.isCollaborating && collaboration.status !== "Connected" && (
+          <div className="excalidraw-notice" role="status">
+            {collaboration.status} Your drawing stays open. Save a file to keep
+            a copy.
+          </div>
+        )}
         {quotaExceeded && (
           <div className="excalidraw-notice">
             Your browser storage is full. Save your drawing to a file to keep a
@@ -289,6 +322,11 @@ const DrawBoardEditor = () => {
         )}
         <CommandPalette
           customCommandPaletteItems={[
+            {
+              label: "Live collaboration",
+              category: DEFAULT_CATEGORIES.app,
+              perform: collaboration.open,
+            },
             {
               label: "Install Draw Board",
               category: DEFAULT_CATEGORIES.app,
