@@ -1,0 +1,13 @@
+# Optional companion collaboration server. The editor is deployed separately on Vercel.
+services:
+  - type: web
+    name: draw-board-collaboration
+    runtime: docker
+    dockerfilePath: ./services/collaboration/Dockerfile
+    dockerContext: ./services/collaboration
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGIN
+        sync: false

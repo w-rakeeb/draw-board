@@ -1,0 +1,8 @@
+work
+GitHub
+Github
+outputs
+node_modules
+excalidraw-app/build
+**/*.test.*
+**/__tests__/**
