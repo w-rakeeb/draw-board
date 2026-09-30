@@ -7,7 +7,7 @@ Verified on September 30, 2026 (Asia/Dhaka).
 - Editor pinned to the live excalidraw.com source version: a52cd200927a975322934b42b966133232724bad. Confirmed using the live site's version metadata and the upstream Git commit.
 - TypeScript check passed with no errors.
 - Lint passed for the customized TypeScript/React files.
-- Production build passed and generated the installable PWA assets.
+- Production build passed and generated the installable PWA assets. The separate GitHub release checkout also passed a fresh frozen-lockfile install and production build.
 - 89 focused tests passed across scene restoration, file/image export, shape libraries, freehand drawing, and the new encrypted snapshot-link tests.
 - Collaboration server compiled successfully. Its locked dependency audit reported zero vulnerabilities.
 
@@ -24,6 +24,7 @@ Verified on September 30, 2026 (Asia/Dhaka).
 
 ## Deployment limits
 
+- Published to https://github.com/w-rakeeb/draw-board on main; remote and local Git commit matched and the checkout was clean.
 - Vercel production hosting has not been deployed in this task; the user requested a GitHub import-ready release.
 - Drawing, browser saving, exports, Mermaid, and encrypted snapshot sharing need no additional backend configuration.
 - Public collaboration needs the included companion server hosted and its URL configured. Independent persistent room/image storage needs the user's own Firebase project.

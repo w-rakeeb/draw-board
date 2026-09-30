@@ -13,6 +13,6 @@ Owner: Wrakeeb. Requested September 30, 2026, Asia/Dhaka.
 
 Edit the working source, verify, then intentionally copy source changes to the separate GitHub checkout. Exclude .git, node_modules, build output, work, and local configuration when copying. Never mirror-delete the user's folders.
 
-Validation evidence is kept locally under work. Final validation and upload status will be recorded in VERIFICATION.md.
+Validation evidence is kept locally under work. Final validation and successful GitHub upload are recorded in VERIFICATION.md. The separate release checkout passed its own fresh install and production build.
 
 The live website version was verified and the editor is pinned to a52cd200927a975322934b42b966133232724bad. Snapshot sharing was made independent of an external scene API. The included relay is under services/collaboration; see BACKEND_SETUP.md. No Vercel website or backend service was deployed by this task.
