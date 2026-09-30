@@ -1,35 +1,32 @@
-# Verification
+# Draw Board verification
 
-Verified on September 30, 2026 (Asia/Dhaka).
+Verified September 30, 2026 (Asia/Dhaka), after conversion to a simple local drawing app.
 
-## Source and build
+## Build and checks
 
-- Editor pinned to the live excalidraw.com source version: a52cd200927a975322934b42b966133232724bad. Confirmed using the live site's version metadata and the upstream Git commit.
 - TypeScript check passed with no errors.
-- Lint passed for the customized TypeScript/React files.
-- Production build passed and generated the installable PWA assets. The separate GitHub release checkout also passed a fresh frozen-lockfile install and production build.
-- 89 focused tests passed across scene restoration, file/image export, shape libraries, freehand drawing, and the new encrypted snapshot-link tests.
-- Collaboration server compiled successfully. Its locked dependency audit reported zero vulnerabilities.
+- Lint passed for the changed React, startup, file, and export code.
+- The separate GitHub release checkout passed a frozen-lockfile install and production build, including PWA generation.
+- 92 focused tests passed across restoration, exports, libraries, freehand drawing, branded file formats, and legacy file/image compatibility.
+- Two export snapshots were intentionally updated for Draw Board file types and SVG metadata.
 
-## Browser checks
+## Browser verification
 
-- Desktop editor and original tool layout render with Draw Board branding.
-- Rectangle drawing, text editing, freehand paths, undo/redo, zoom, library, browser autosave, and reload passed.
-- Mobile controls at 390 x 844 and dark mode passed.
-- No uncaught JavaScript exceptions in the core drawing flows.
-- Actual .excalidraw, PNG, and SVG files downloaded through the UI; embedded scene data was present.
-- Encrypted snapshot links restored the scene in an isolated browser, including from the production build.
-- Two isolated browsers exchanged edits through the included local collaboration relay. This validates relay integration, not a publicly hosted service or ownership of Firebase resources.
-- Cached production app reloaded with the network disabled and saved new text offline.
+- Actual rectangle drawing, editable text, freehand paths, undo/redo, zoom, autosave/reload, themes, and a 390 x 844 mobile layout passed.
+- Welcome screen, main menu, help, library, more-tools menu, Mermaid dialog, command palette, file export, image export, and mobile UI contain no original branding, account prompts, collaboration controls, or AI generation entries.
+- Exported .drawboard files have Draw Board type metadata and preserve editable shapes/text. PNG and SVG downloads passed signature/content checks. SVG metadata identifies Draw Board.
+- Mermaid code produced editable Start / Draw / Save shapes without AI.
+- An image dropped onto the canvas was saved to browser IndexedDB and restored after reload.
+- The final release build reloaded with network access disabled and saved newly typed text offline.
+- No requests to Excalidraw, Firebase, or Sentry were observed during the audited drawing/export/Mermaid flow. Fonts load from the site's own files.
+- No uncaught JavaScript exceptions were observed.
 
-## Deployment limits
+## Scope
 
-- Published to https://github.com/w-rakeeb/draw-board on main; remote and local Git commit matched and the checkout was clean.
-- Vercel production hosting has not been deployed in this task; the user requested a GitHub import-ready release.
-- Drawing, browser saving, exports, Mermaid, and encrypted snapshot sharing need no additional backend configuration.
-- Public collaboration needs the included companion server hosted and its URL configured. Independent persistent room/image storage needs the user's own Firebase project.
-- AI generation needs a compatible AI backend. The upstream AI endpoint failed from this fork, so it is unconfigured by default with an explicit UI message.
-- Excalidraw+ accounts and paid workspace storage are external proprietary services.
-- Snapshot links differ from stored short links: they carry the encrypted drawing in the URL fragment and may be too long for some messaging apps.
+- Visible product identity is Draw Board / Made by Wrakeeb.
+- Accounts, AI, live collaboration, cloud sharing, paid promotions, cloud setup files, provider links, old promotional icons/screenshots, and cloud dependencies were removed from the app/release.
+- Local libraries, drawing/editing, frames, images, exports, Mermaid, themes, translations, shortcuts, and cached offline use remain.
+- Internal editor module names, previous-format import compatibility, and mandatory original copyright/license/font notices remain in source. The underlying engine is open-source derived code, not a claim of sole authorship.
+- No Vercel deployment was manually performed. The GitHub repository is ready for import, or for automatic deployment if already connected.
 
-Local test logs, browser screenshots, and test scripts are under the ignored work directory in the working source copy.
+Local logs, screenshots, downloads, and browser test scripts are under the ignored work folder.

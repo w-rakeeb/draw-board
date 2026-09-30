@@ -365,7 +365,7 @@ export const exportToSvg = async (
     "metadata",
   );
 
-  svgRoot.appendChild(createHTMLComment("svg-source:excalidraw"));
+  svgRoot.appendChild(createHTMLComment("svg-source:drawboard"));
   svgRoot.appendChild(metadataElement);
   svgRoot.appendChild(defsElement);
 
@@ -529,7 +529,10 @@ export const encodeSvgBase64Payload = ({
 };
 
 export const decodeSvgBase64Payload = ({ svg }: { svg: string }) => {
-  if (svg.includes(`payload-type:${MIME_TYPES.excalidraw}`)) {
+  if (
+    svg.includes(`payload-type:${MIME_TYPES.excalidraw}`) ||
+    svg.includes("payload-type:application/vnd.excalidraw+json")
+  ) {
     const match = svg.match(
       /<!-- payload-start -->\s*(.+?)\s*<!-- payload-end -->/,
     );
@@ -547,7 +550,8 @@ export const decodeSvgBase64Payload = ({ svg }: { svg: string }) => {
         // legacy, un-encoded scene JSON
         if (
           "type" in encodedData &&
-          encodedData.type === EXPORT_DATA_TYPES.excalidraw
+          (encodedData.type === EXPORT_DATA_TYPES.excalidraw ||
+            encodedData.type === "excalidraw")
         ) {
           return json;
         }

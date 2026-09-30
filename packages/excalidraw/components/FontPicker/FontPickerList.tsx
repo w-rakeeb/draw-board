@@ -97,10 +97,12 @@ export const getFontFamilyLabel = (
   fontFamily: FontFamilyValues,
   fontFaces: ExcalidrawFontFace[],
 ) =>
-  // prefer our config as the browser resolved names may be wrapped in quotes and such
-  Object.entries(FONT_FAMILY).find(([, id]) => id === fontFamily)?.[0] ??
-  fontFaces[0]?.fontFace?.family ??
-  "Unknown";
+  fontFamily === FONT_FAMILY.Excalifont
+    ? "Hand Drawn"
+    : // prefer our config as the browser resolved names may be wrapped in quotes and such
+      Object.entries(FONT_FAMILY).find(([, id]) => id === fontFamily)?.[0] ??
+      fontFaces[0]?.fontFace?.family ??
+      "Unknown";
 
 export const FontPickerList = React.memo(
   ({

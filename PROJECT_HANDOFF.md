@@ -1,18 +1,17 @@
 # Draw Board project handoff
 
-Owner: Wrakeeb. Requested September 30, 2026, Asia/Dhaka.
+Owner: Wrakeeb. Updated September 30, 2026, Asia/Dhaka.
 
 - Working source: D:\Codex\Draw Board
-- GitHub release source: D:\Codex\Draw Boar\Github (preserves the exact requested path)
-- Repository target: https://github.com/w-rakeeb/draw-board
-- Import into Vercel from the repository root; configuration is in vercel.json.
-- Full Excalidraw OSS app was used, rather than recreating its drawing engine or using an older npm snapshot.
-- Upstream commit: a52cd20.
-- Branding is Draw Board / Made by Wrakeeb. No final custom domain was specified.
-- Network-backed features retain configurable upstream service dependencies. See README.md for the ownership and deployment distinction.
+- GitHub release checkout: D:\Codex\Draw Boar\Github
+- Repository: https://github.com/w-rakeeb/draw-board
+- Vercel import: repository root; configuration is in vercel.json.
+- Local launcher: Start Draw Board.cmd.
 
-Edit the working source, verify, then intentionally copy source changes to the separate GitHub checkout. Exclude .git, node_modules, build output, work, and local configuration when copying. Never mirror-delete the user's folders.
+Current product is a simple local drawing site. AI, collaboration, sharing/backend connections, sign-up/sign-in, paid product prompts, upstream social/help links, and promotional sidebar tabs were removed. The app retains local drawing/editing, images, frames, exports, libraries, Mermaid, themes, translation, browser autosave, and cached offline use. Drawing files use .drawboard and library files use .drawboardlib; older formats remain importable.
 
-Validation evidence is kept locally under work. Final validation and successful GitHub upload are recorded in VERIFICATION.md. The separate release checkout passed its own fresh install and production build.
+Original-provider cloud configuration and service setup artifacts were removed from the release. Fonts are served from the site's own files. Visible branding, metadata, help links, menus, and exported file labels belong to Draw Board / Wrakeeb. Internal editor names, legacy import compatibility, and mandatory upstream license notices remain in the source.
 
-The live website version was verified and the editor is pinned to a52cd200927a975322934b42b966133232724bad. Snapshot sharing was made independent of an external scene API. The included relay is under services/collaboration; see BACKEND_SETUP.md. No Vercel website or backend service was deployed by this task.
+Edit the working source, verify, then copy changed source into the separate GitHub checkout. Exclude .git, node_modules, build, work, and private local configuration. Remove only explicitly retired tracked files; never mirror-delete the user's directories. Retired cloud files are archived locally in the ignored work/retired-cloud folder for rollback.
+
+Verification evidence is under work and summarized in VERIFICATION.md. No Vercel deployment is performed here; publishing commits updates the user's connected Vercel project if they have imported this repository.

@@ -1,6 +1,6 @@
 import Trans from "@excalidraw/excalidraw/components/Trans";
 import { t } from "@excalidraw/excalidraw/i18n";
-import * as Sentry from "@sentry/browser";
+
 import React from "react";
 
 interface TopErrorBoundaryState {
@@ -33,15 +33,11 @@ export class TopErrorBoundary extends React.Component<
       }
     }
 
-    Sentry.withScope((scope) => {
-      scope.setExtras(errorInfo);
-      const eventId = Sentry.captureException(error);
-
-      this.setState((state) => ({
-        hasError: true,
-        sentryEventId: eventId,
-        localStorage: JSON.stringify(_localStorage),
-      }));
+    console.error(error, errorInfo);
+    this.setState({
+      hasError: true,
+      sentryEventId: "",
+      localStorage: JSON.stringify(_localStorage),
     });
   }
 
@@ -66,7 +62,7 @@ export class TopErrorBoundary extends React.Component<
     }
 
     window.open(
-      `https://github.com/excalidraw/excalidraw/issues/new?body=${body}`,
+      `https://github.com/w-rakeeb/draw-board/issues/new?body=${body}`,
       "_blank",
       "noopener noreferrer",
     );

@@ -126,7 +126,7 @@ export default defineConfig(({ mode }) => {
           },
         },
       },
-      sourcemap: true,
+      sourcemap: false,
       // don't auto-inline small assets (i.e. fonts hosted on CDN)
       assetsInlineLimit: 0,
     },
@@ -221,7 +221,7 @@ export default defineConfig(({ mode }) => {
           short_name: "Draw Board",
           name: "Draw Board by Wrakeeb",
           description:
-            "Draw, write, and collaborate. A whiteboard by Wrakeeb, powered by Excalidraw.",
+            "Draw, write, and save your ideas. A drawing canvas by Wrakeeb.",
           icons: [
             {
               src: "draw-board.svg",
@@ -236,61 +236,7 @@ export default defineConfig(({ mode }) => {
           theme_color: "#121212",
           background_color: "#ffffff",
           file_handlers: [
-            {
-              action: "/",
-              accept: {
-                "application/vnd.excalidraw+json": [".excalidraw"],
-              },
-            },
-          ],
-          share_target: {
-            action: "/web-share-target",
-            method: "POST",
-            enctype: "multipart/form-data",
-            params: {
-              files: [
-                {
-                  name: "file",
-                  accept: [
-                    "application/vnd.excalidraw+json",
-                    "application/json",
-                    ".excalidraw",
-                  ],
-                },
-              ],
-            },
-          },
-          screenshots: [
-            {
-              src: "/screenshots/virtual-whiteboard.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
-            {
-              src: "/screenshots/wireframe.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
-            {
-              src: "/screenshots/illustration.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
-            {
-              src: "/screenshots/shapes.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
-            {
-              src: "/screenshots/collaboration.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
-            {
-              src: "/screenshots/export.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
+            { action: "/", accept: { "application/json": [".drawboard"] } },
           ],
         },
       }),

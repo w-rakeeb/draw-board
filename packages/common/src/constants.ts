@@ -313,15 +313,17 @@ export const STRING_MIME_TYPES = {
   html: "text/html",
   json: "application/json",
   // excalidraw data
-  excalidraw: "application/vnd.excalidraw+json",
+  excalidraw: "application/vnd.drawboard+json",
   excalidrawClipboard: "application/vnd.excalidraw.clipboard+json",
   // LEGACY: fully-qualified library JSON data
-  excalidrawlib: "application/vnd.excalidrawlib+json",
+  excalidrawlib: "application/vnd.drawboardlib+json",
   // list of excalidraw library item ids
   excalidrawlibIds: "application/vnd.excalidrawlib.ids+json",
 } as const;
 
 export const MIME_TYPES = {
+  drawboard: "application/json",
+  drawboardlib: "application/json",
   ...STRING_MIME_TYPES,
   // image-encoded excalidraw data
   "excalidraw.svg": "image/svg+xml",
@@ -345,9 +347,9 @@ export const EXPORT_IMAGE_TYPES = {
 } as const;
 
 export const EXPORT_DATA_TYPES = {
-  excalidraw: "excalidraw",
+  excalidraw: "drawboard",
   excalidrawClipboard: "excalidraw/clipboard",
-  excalidrawLibrary: "excalidrawlib",
+  excalidrawLibrary: "drawboardlib",
   excalidrawClipboardWithAPI: "excalidraw-api/clipboard",
 } as const;
 

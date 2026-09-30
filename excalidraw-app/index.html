@@ -15,7 +15,7 @@
     <meta name="title" content="Draw Board — by Wrakeeb" />
     <meta
       name="description"
-      content="Draw, write, and collaborate on a hand-drawn whiteboard. Draw Board by Wrakeeb, powered by Excalidraw."
+      content="A simple drawing canvas by Wrakeeb. Draw, write, add images, and save your ideas."
     />
 
     <!-- Open Graph / Facebook -->
@@ -24,7 +24,7 @@
     <meta property="og:title" content="Draw Board — by Wrakeeb" />
     <meta
       property="og:description"
-      content="Draw, write, and collaborate on a hand-drawn whiteboard. Draw Board by Wrakeeb, powered by Excalidraw."
+      content="A simple drawing canvas by Wrakeeb. Draw, write, add images, and save your ideas."
     />
 
     <!-- Twitter -->
@@ -32,7 +32,7 @@
     <meta property="twitter:title" content="Draw Board — by Wrakeeb" />
     <meta
       property="twitter:description"
-      content="Draw, write, and collaborate on a hand-drawn whiteboard. Draw Board by Wrakeeb, powered by Excalidraw."
+      content="A simple drawing canvas by Wrakeeb. Draw, write, add images, and save your ideas."
     />
 
     <!------------------------------------------------------------------------->
@@ -71,10 +71,6 @@
       }
     </style>
 
-    <!-- Warmup the connection for Google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <!------------------------------------------------------------------------->
     <% if (typeof PROD != 'undefined' && PROD == true) { %>
 
@@ -96,7 +92,7 @@
 
     <link rel="icon" type="image/svg+xml" href="/draw-board.svg" />
 
-    <!-- Excalidraw version -->
+    <!-- Draw Board version -->
     <meta name="version" content="{version}" />
 
     <% if (typeof VITE_APP_DEV_DISABLE_LIVE_RELOAD != 'undefined' &&
@@ -118,7 +114,7 @@
     <% } %>
     <script>
       // setting this so that libraries installation reuses this window tab.
-      window.name = "_excalidraw";
+      window.name = "_drawboard";
     </script>
 
     <!-- FIXME: remove this when we update CRA (fix SW caching) -->

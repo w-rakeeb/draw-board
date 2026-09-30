@@ -89,7 +89,7 @@ export const getMimeType = (blob: Blob | string): string => {
     }
     name = blob.name || "";
   }
-  if (/\.(excalidraw|json)$/.test(name)) {
+  if (/\.(drawboard|excalidraw|json)$/.test(name)) {
     return MIME_TYPES.json;
   } else if (/\.png$/.test(name)) {
     return MIME_TYPES.png;
@@ -97,7 +97,7 @@ export const getMimeType = (blob: Blob | string): string => {
     return MIME_TYPES.jpg;
   } else if (/\.svg$/.test(name)) {
     return MIME_TYPES.svg;
-  } else if (/\.excalidrawlib$/.test(name)) {
+  } else if (/\.(drawboardlib|excalidrawlib)$/.test(name)) {
     return MIME_TYPES.excalidrawlib;
   }
   return "";
@@ -108,7 +108,9 @@ export const getFileHandleType = (handle: FileSystemFileHandle | null) => {
     return null;
   }
 
-  return handle.name.match(/\.(json|excalidraw|png|svg)$/)?.[1] || null;
+  return (
+    handle.name.match(/\.(json|drawboard|excalidraw|png|svg)$/)?.[1] || null
+  );
 };
 
 export const isImageFileHandleType = (
@@ -523,9 +525,15 @@ export const normalizeFile = async (file: File) => {
     return file;
   }
 
-  if (file?.name?.endsWith(".excalidrawlib")) {
+  if (
+    file?.name?.endsWith(".drawboardlib") ||
+    file?.name?.endsWith(".excalidrawlib")
+  ) {
     file = createFile(file, MIME_TYPES.excalidrawlib, file.name);
-  } else if (file?.name?.endsWith(".excalidraw")) {
+  } else if (
+    file?.name?.endsWith(".drawboard") ||
+    file?.name?.endsWith(".excalidraw")
+  ) {
     file = createFile(file, MIME_TYPES.excalidraw, file.name);
   } else if (!file.type || file.type?.startsWith("image/")) {
     // when the file is an image, make sure the extension corresponds to the
